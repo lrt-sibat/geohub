@@ -1,5 +1,11 @@
 # geohub
 
+## 1.8.1
+
+### Patch Changes
+
+- b41318f: fix: update rescale store when a raster transform is applied
+
 ## 1.8.0
 
 ### Minor Changes
