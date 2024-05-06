@@ -71,7 +71,7 @@
 		let url = electricitySelected.name === 'HREA' ? getHreaUrl(yearValue) : getMlUrl(yearValue);
 		if (electricitySelected.name === 'NONE') removeRasterLayer();
 		else loadRasterLayer(url);
-		reloadAdmin(scaleColorList);
+		reloadAdmin({ colorScales: scaleColorList });
 	}
 
 	const removeRasterLayer = () => {

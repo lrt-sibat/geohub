@@ -44,7 +44,7 @@
 			expression.push(subexpression);
 		}
 
-		reloadAdmin(undefined, true, expression);
+		reloadAdmin({ loadAdminLabels: true, newColorExpression: expression });
 		return expression;
 	};
 
@@ -62,7 +62,7 @@
 
 	onMount(() => {
 		loadAdmin(true);
-		reloadAdmin(undefined, true, expression);
+		reloadAdmin({ loadAdminLabels: true, newColorExpression: expression });
 	});
 </script>
 

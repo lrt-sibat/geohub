@@ -122,7 +122,11 @@ const onZoom = ({ originalEvent }) => {
 	if (features.length > 0) onMouseMove({ features });
 
 	map.setPaintProperty(ADM_ID, 'fill-opacity', opacity);
-	reloadAdmin(scaleColorList, adminLabelsLoaded, colorExpression);
+	reloadAdmin({
+		colorScales: scaleColorList,
+		loadAdminLabels: adminLabelsLoaded,
+		newColorExpression: colorExpression
+	});
 };
 
 const loadAdmin0 = () => {
@@ -161,13 +165,17 @@ export const loadAdmin = (isChoropleth: boolean) => {
 	map.on('zoom', onZoom);
 };
 
-export const reloadAdmin = (
-	colorScales: string[],
-	loadAdminLabels: boolean = true,
-	newColorExpression?
-) => {
-	scaleColorList = colorScales ? colorScales : [];
-	adminLabelsLoaded = loadAdminLabels;
+interface ReloadAdminOptions {
+	colorScales?: string[];
+	loadAdminLabels?: boolean;
+	newColorExpression?;
+}
+
+export const reloadAdmin = (options: ReloadAdminOptions) => {
+	const { colorScales, loadAdminLabels, newColorExpression } = options;
+
+	scaleColorList = colorScales || [];
+	adminLabelsLoaded = loadAdminLabels ?? true;
 	colorExpression = newColorExpression;
 
 	const map = get(mapStore);
@@ -184,7 +192,8 @@ export const reloadAdmin = (
 				: mapZoom >= 2 && mapZoom <= 3.9
 					? 'place_country_1'
 					: 'place_city_dot_r2';
-		if (loadAdminLabels) {
+
+		if (adminLabelsLoaded) {
 			const layer = MapStyles[0].style.layers.find((i) => i.id === labelId);
 			map.getLayer(labelId) && map.removeLayer(labelId);
 			map.addLayer(layer);

@@ -8,15 +8,19 @@
 	export let electricitySelected;
 	export let loadRasterLayer;
 	export let POVERTY_ID;
-	export let showMapLabels: boolean;
+	export let showMapLabels: boolean = true;
 
 	let colorMapNameStore: string = 'pubu';
 	let scaleColorList: string[] = [];
 	let isReverse: boolean = false;
+	console.log(showMapLabels);
 
 	const showLabelsHandler = () => {
 		showMapLabels = !showMapLabels;
-		reloadAdmin(scaleColorList, showMapLabels);
+		reloadAdmin({
+			colorScales: scaleColorList,
+			loadAdminLabels: showMapLabels
+		});
 	};
 
 	const colorPickerChangeHandler = (e) => {
@@ -28,7 +32,10 @@
 		isReverse = colorMapNameStore.indexOf('_r') !== -1;
 		scaleColorList = chroma.scale(colorMapNameStore.replace('_r', '')).colors(5, 'hex');
 		if (isReverse) scaleColorList.reverse();
-		reloadAdmin(scaleColorList, showMapLabels);
+		reloadAdmin({
+			colorScales: scaleColorList,
+			loadAdminLabels: showMapLabels
+		});
 	};
 
 	onMount(() => {
