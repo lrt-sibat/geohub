@@ -5,6 +5,7 @@
 	let expression;
 	let showLegend = true;
 	const maxValue = 1;
+	const defaultColor = 'hsla(0, 0%, 100%, 0)';
 	const colorGrid = [
 		['#F3618C', '#CE5495', '#A9469E', '#8339A6', '#5E2BAF'],
 		['#F689A9', '#B679A9', '#916CB2', '#6C5EBB', '#4750C3'],
@@ -38,13 +39,21 @@
 				) {
 					subexpression.push(colorGrid[colorGrid.length - 1 - row][col]);
 				} else {
-					subexpression.push('hsla(0, 0%, 0%, 0)');
+					subexpression.push(defaultColor);
 				}
 			}
 			expression.push(subexpression);
 		}
 
-		reloadAdmin({ loadAdminLabels: true, newColorExpression: expression });
+		reloadAdmin({
+			loadAdminLabels: true,
+			newColorExpression: [
+				'case',
+				['any', ['==', ['get', propertyA], null], ['==', ['get', propertyB], null]],
+				defaultColor,
+				expression
+			]
+		});
 		return expression;
 	};
 
@@ -62,7 +71,15 @@
 
 	onMount(() => {
 		loadAdmin(true);
-		reloadAdmin({ loadAdminLabels: true, newColorExpression: expression });
+		reloadAdmin({
+			loadAdminLabels: true,
+			newColorExpression: [
+				'case',
+				['any', ['==', ['get', propertyA], null], ['==', ['get', propertyB], null]],
+				'hsla(0, 0%, 100%, 0)',
+				expression
+			]
+		});
 	});
 </script>
 
@@ -120,8 +137,6 @@
 				width: 300px;
 				top: 165px;
 				left: 367px;
-				border-radius: 4px;
-				box-shadow: 2px 2px 2px 0 #7d7d7d;
 			}
 
 			&__container {
@@ -137,12 +152,13 @@
 				cursor: pointer;
 
 				&:hover {
-					border-width: 4px;
+					border-width: 2px;
+					border-color: #edeff0;
 				}
 
 				&.selected {
-					border-width: 4px;
-					border-color: #000;
+					border-width: 2px;
+					border-color: #232e3d;
 				}
 			}
 
