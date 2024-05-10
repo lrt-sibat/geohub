@@ -177,6 +177,7 @@ export const reloadAdmin = (options: ReloadAdminOptions) => {
 	scaleColorList = colorScales || [];
 	adminLabelsLoaded = loadAdminLabels ?? true;
 	colorExpression = newColorExpression;
+	console.log(colorExpression);
 
 	const map = get(mapStore);
 	if (choropleth) {
