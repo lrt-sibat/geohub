@@ -43,11 +43,7 @@
 
 	let showIntro = true;
 	let showMapLabels = true;
-	let electricitySelected: {
-		name: string;
-		icon: string;
-		title: string;
-	};
+	let electricitySelected: string;
 	let drawerWidth = '355px';
 
 	let loadRasterLayer = () => {
@@ -203,7 +199,7 @@
 		{ name: ML_ID, icon: 'fas fa-laptop-code', title: 'Machine Learning' },
 		{ name: NONE_ID, icon: 'fas fa-ban', title: 'None' }
 	];
-	electricitySelected = electricityChoices[2];
+	electricitySelected = electricityChoices[2].name;
 
 	const download = (layer: string, format: string) => {
 		const url = `https://data.undpgeohub.org/admin/${layer.toLowerCase()}_polygons.${format.toLowerCase()}.zip`;
@@ -252,7 +248,6 @@
 						<div
 							class="a-title__container is-flex is-justify-content-space-between is-align-items-center"
 						>
-							<img src={dbs.mapIcon} alt={dbs.mapIconAlt} />
 							<span class="a-title">{dbs.text}</span>
 						</div>
 						<img src="/assets/img/information.svg" alt="Information" />
@@ -270,7 +265,7 @@
 							<p>Content Later.</p>
 						</div>
 					{:else if dbs.show && dbs.name === 'analyse'}
-						<AnalyzeBivariate></AnalyzeBivariate>
+						<AnalyzeBivariate />
 					{/if}
 				</div>
 			{/each}
